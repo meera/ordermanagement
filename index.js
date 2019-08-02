@@ -19,10 +19,11 @@ class OrderSystem {
         this.map = new Map(); // Using Map Strructure for key = orderId, value = orderDetails
         this.tabCount = 0;
     }
-
+    // Add Order
     addOrder(order) {
         this.map.set( order.id, order);
     }
+    // Use this function to create dependency 'Links' between orders. 
     addDependencies(fromOrderId, toOrderId) {
         const fromOrder = this.map.get(fromOrderId);
         if( ! fromOrder  ) return false;
@@ -34,6 +35,7 @@ class OrderSystem {
         toOrder.dependant_orders.push( fromOrderId);
     }
 
+    // This is recursive function to print dependencies
     printDependentOrders( orderId, stream) {
         const orderDetail = this.map.get(orderId);
         if (orderDetail.dependant_orders.length != 0 ) {
@@ -122,8 +124,11 @@ function main() {
     Promise.all([p1, p2]).then( // Wait for both the promises to be fulfilled.
       
         ([orders, dependencies]) => {         
+            // Add Orders
             orders.map( (order) => {  orderSystem.addOrder( new Order( order.id, order.name)); } );
+            // Add Dependencies
             dependencies.map( (de) => {  orderSystem.addDependencies(de.dependency_id, de.id )});
+            
             orderSystem.printFile('output.txt');
             //orderSystem.print();
 
