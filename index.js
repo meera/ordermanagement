@@ -14,6 +14,7 @@ function Order(id, name) {
     this.dependant_orders = []; // Pointers to orders that depend on this order.
 }
 
+// Order Management System
 class OrderSystem {
     constructor() {
         this.map = new Map(); // Using Map Strructure for key = orderId, value = orderDetails
