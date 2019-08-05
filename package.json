@@ -9,6 +9,7 @@
   "author": "Meera Bavadekar",
   "license": "ISC",
   "dependencies": {
-    "csvtojson": "^2.0.10"
+    "csvtojson": "^2.0.10",
+    "yargs": "^13.3.0"
   }
 }

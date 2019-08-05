@@ -112,16 +112,24 @@ function test() {
 }
 
 
-
+// How to Run 
+// By default program will take example2/orders.txt and example2/dependencies.txt files
+// To Run in default mode
+// node inde  
+// To provide arguments try this
+// node index  --output anotheroutput.txt --orders input/orders.txt --dependency input/dependencies.txt
 function main() {
-    //const orders_fileName ='input/orders.txt';
-    //const dependency_fileName = 'input/dependencies.txt';
-    const orders_fileName ='example2/orders.txt';
-    const dependency_fileName = 'example2/dependencies.txt';
+    const argv = require('yargs')
+                    .default('output', 'output.txt') // if --output parameter isn't defined use output.txt
+                    .default('orders', 'example2/orders.txt')
+                    .default('dependency', 'example2/dependencies.txt')
+                    .argv;
+
+    
     var orderSystem = new OrderSystem();  
 
-    const p1 = read_cvs(orders_fileName); // this function returns a promise
-    const p2 = read_cvs(dependency_fileName); // this function returns a promise
+    const p1 = read_cvs(argv.orders); // this function returns a promise
+    const p2 = read_cvs(argv.dependency); // this function returns a promise
     Promise.all([p1, p2]).then( // Wait for both the promises to be fulfilled.
       
         ([orders, dependencies]) => {         
@@ -130,7 +138,8 @@ function main() {
             // Add Dependencies
             dependencies.map( (de) => {  orderSystem.addDependencies(de.dependency_id, de.id )});
             
-            orderSystem.printFile('output.txt');
+            console.log('Writing to ', argv.output );
+            orderSystem.printFile(argv.output);
             //orderSystem.print();
 
         }
